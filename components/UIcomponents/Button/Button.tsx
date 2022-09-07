@@ -9,24 +9,45 @@ type Props = {
   loading?: boolean;
   disabled?: boolean;
   children: ReactNode;
-};
-
-type StyledButton = Pick<Props, 'UIType' | 'loading'> & {
-  alignSelf?: string;
+  onClick?: () => any;
   padding?: string;
+  alignSelf?: string;
   margin?: string;
 };
+
+type StyledButton = Pick<
+  Props,
+  'UIType' | 'loading' | 'padding' | 'alignSelf' | 'margin'
+> & {};
 
 export const Button: React.FC<Props> = ({
   children,
   UIType: color,
   loading = false,
   disabled = false,
+  onClick,
+  padding,
+  alignSelf,
+  margin,
 }) => {
   return (
-    <StyledButton UIType={color} disabled={disabled} loading={loading}>
+    <StyledButton
+      onClick={onClick}
+      UIType={color}
+      disabled={disabled}
+      loading={loading}
+      padding={padding}
+      alignSelf={alignSelf}
+      margin={margin}
+    >
       {!loading ? (
-        <StyledButtonText UIType={color}>{children}</StyledButtonText>
+        <StyledButtonText
+          padding={padding}
+          alignSelf={alignSelf}
+          UIType={color}
+        >
+          {children}
+        </StyledButtonText>
       ) : (
         <Loader
           src={color === 'primary' ? primaryLoader.src : secondaryLoader.src}
@@ -39,10 +60,11 @@ export const Button: React.FC<Props> = ({
 const StyledButton = styled.button<StyledButton>`
   display: flex;
   align-items: center;
-  width: 308px;
-  height: 72px;
+  align-self: ${({ alignSelf }) => alignSelf || 'unset'};
   border-radius: 4px;
-  padding: 20px 24px;
+  padding: ${({ padding }) => padding || '20px 24px'};
+  width: fit-content;
+  margin: ${({ margin }) => margin || '0'};
   border: 0;
   box-shadow: ${({ UIType }) =>
     UIType === 'text' ? 'none' : '0px 10px 28px rgba(252, 88, 66, 0.2)'};
@@ -69,9 +91,12 @@ const StyledButtonText = styled.span<StyledButton>`
   line-height: 18px;
   text-align: center;
   color: ${({ UIType }) =>
-    UIType !== 'primary' ? colors.primary : colors.neutral.white};
+    UIType === 'primary' ? colors.neutral.white : colors.primary};
   &:hover {
-    color: ${({ UIType }) => colorMap[UIType].hover};
+    color: ${({ UIType }) =>
+      UIType === 'primary'
+        ? colorMap['secondary'].hover
+        : colorMap['primary'].hover};
   }
 `;
 

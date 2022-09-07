@@ -1,13 +1,35 @@
 @font-face {
     font-family: "THICCCBOI";
+    font-weight: 700;
     src: url("/fonts/THICCCBOI-Bold.woff2") format("woff2"),
-    url("/fonts/THICCCBOI-Bold.ttf") format("truetype"),
-    url("/fonts/THICCCBOI-Medium.woff2") format("woff2"),
-    url("/fonts/THICCCBOI-Medium.ttf") format("truetype");
-
+    url("/fonts/THICCCBOI-Bold.ttf") format("truetype");
+}
+@font-face {
+  font-family: "THICCCBOI";
+  font-weight: 500;
+  src: url("/fonts/THICCCBOI-Medium.woff2") format("woff2"),
+  url("/fonts/THICCCBOI-Medium.ttf") format("truetype");
+}
+@font-face {
+  font-family: "THICCCBOI";
+  font-weight: 400;
+  src: url("/fonts/THICCCBOI-Regular.ttf") format("truetype");
 }
 
 @font-face {
     font-family:'inter';
     src: url("/fonts/Inter-Medium.woff2") format("woff2");
 }
+
+  @font-face {
+    font-family: 'DM Sans';
+    font-style: normal;
+    font-weight: 700;
+    src: url('/fonts/dm-sans-v11-latin-700.eot'); /* IE9 Compat Modes */
+    src: local(''),
+         url('/fonts/dm-sans-v11-latin-700.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+         url('/fonts/dm-sans-v11-latin-700.woff2') format('woff2'), /* Super Modern Browsers */
+         url('/fonts/dm-sans-v11-latin-700.woff') format('woff'), /* Modern Browsers */
+         url('/fonts/dm-sans-v11-latin-700.ttf') format('truetype'), /* Safari, Android, iOS */
+         url('/fonts/dm-sans-v11-latin-700.svg#DMSans') format('svg'); /* Legacy iOS */
+  }

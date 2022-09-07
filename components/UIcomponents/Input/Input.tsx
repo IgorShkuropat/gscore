@@ -28,7 +28,7 @@ const StyledInput = styled.input<Props>`
   padding: ${({ padding }) => padding || '25px 0 25px 23px'};
   box-shadow: 0px 2px 12px rgba(20, 20, 43, 0.06);
   border-radius: 6px;
-  width: 250px;
+  width: 100%;
   &::placeholder {
     color: ${colors.neutral.grey};
   }

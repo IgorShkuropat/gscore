@@ -10,7 +10,7 @@ export const AccordionItemList = () => {
   return (
     <>
       {titles.map((title, index) => (
-        <AccordionItem title={title} iconSrc={iconsSrcs[index]} />
+        <AccordionItem key={title} title={title} iconSrc={iconsSrcs[index]} />
       ))}
     </>
   );

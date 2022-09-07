@@ -7,14 +7,23 @@ main{
     display: flex;
     gap: 35px;
     flex-direction: column;
-    margin: 25px;
 }
 body, html{
     background-color: ${colors.neutral.black};
     margin: 0;
 }
+*{
+  margin: 0;
+}
 ol, ul {
 	list-style: none;
 }
-
+a,
+a.-webkit-any-link:active,
+a.-webkit-any-link:focus, /* активная/посещенная ссылка */
+a.-webkit-any-link:hover,  /* при наведении */
+a.-webkit-any-link {
+  text-decoration: none;
+  color: inherit;
+}
 `;

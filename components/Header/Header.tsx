@@ -5,15 +5,14 @@ import logoIcon from 'public/svg/logo.svg';
 export const Header = () => {
   return (
     <Container>
-      <Logo src={logoIcon.src} />
+      <img src={logoIcon.src} alt="logo" />
     </Container>
   );
 };
 
 const Container = styled.div`
-  padding: 32px 87px;
+  margin-left: 5.97%;
+  padding: 32px 0;
   display: flex;
   justify-content: space-between;
 `;
-
-const Logo = styled.img``;

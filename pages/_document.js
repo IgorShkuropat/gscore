@@ -31,6 +31,27 @@ export default class MyDocument extends Document {
         <Head>
           <link
             rel="preload"
+            href="fonts/THICCCBOI-Regular.ttf"
+            as="font"
+            type="font/woff2"
+            crossOrigin=""
+          />
+          <link
+            rel="preload"
+            href="fonts/THICCCBOI-Medium.woff2"
+            as="font"
+            type="font/woff2"
+            crossOrigin=""
+          />
+          <link
+            rel="preload"
+            href="fonts/THICCCBOI-Medium.ttf"
+            as="font"
+            type="font/woff2"
+            crossOrigin=""
+          />
+          <link
+            rel="preload"
             href="fonts/THICCCBOI-Bold.woff2"
             as="font"
             type="font/woff2"
@@ -41,13 +62,6 @@ export default class MyDocument extends Document {
             href="fonts/THICCCBOI-Bold.ttf"
             as="font"
             type="font/ttf"
-            crossOrigin=""
-          />
-          <link
-            rel="preload"
-            href="fonts/THICCCBOI-Medium.woff2"
-            as="font"
-            type="font/woff2"
             crossOrigin=""
           />
           <link
