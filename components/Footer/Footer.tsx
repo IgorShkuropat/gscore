@@ -2,7 +2,7 @@ import React from 'react';
 import logo from 'public/svg/logo.svg';
 import twitter from 'public/svg/twitter.svg';
 import facebook from 'public/svg/facebook.svg';
-import linkedin from 'public/svg/linkedin.svg';
+import linkedin from 'public/svg/linkedIn.svg';
 import { colors } from 'shared/colors';
 import styled from 'styled-components';
 
