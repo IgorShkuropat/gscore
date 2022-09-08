@@ -4,29 +4,18 @@ import { colors, colorMap } from 'shared/colors';
 import checkIcon from 'public/svg/check.svg';
 
 type Props = {
-  label?: string;
-  gap?: string;
   disabled?: boolean;
-  status: 'active' | 'hold' | 'inactive';
   initialChecked?: boolean;
+  margin?: string;
 };
-type Checkbox = Pick<Props, 'disabled'> & {
-  checked: boolean;
-};
-type Label = Pick<Props, 'status'>;
-
-const statusColorMap = {
-  active: colors.system.green,
-  hold: colors.system.orange,
-  inactive: colors.primary,
+type TCheckbox = Pick<Props, 'disabled' | 'margin'> & {
+  checked?: boolean;
 };
 
 export const Checkbox: React.FC<Props> = ({
-  label,
-  gap = '15px',
   disabled = false,
-  status = 'active',
   initialChecked = false,
+  margin,
 }) => {
   const [checked, setChecked] = useState(initialChecked);
 
@@ -35,19 +24,22 @@ export const Checkbox: React.FC<Props> = ({
   };
 
   return (
-    <div style={{ display: 'flex', gap: gap }}>
-      <HiddenCheckbox defaultChecked={checked} disabled={disabled} />
+    <>
+      <HiddenCheckbox
+        margin={margin}
+        defaultChecked={checked}
+        disabled={disabled}
+      />
       <StyledCheckbox
         onClick={handleChecked}
         disabled={disabled}
         checked={checked}
       />
-      <Label status={status}>{label}</Label>
-    </div>
+    </>
   );
 };
 
-const HiddenCheckbox = styled.input.attrs({ type: 'checkbox' })`
+const HiddenCheckbox = styled.input.attrs({ type: 'checkbox' })<TCheckbox>`
   &[type='checkbox'] {
     position: absolute;
     appearance: none;
@@ -66,7 +58,7 @@ const HiddenCheckbox = styled.input.attrs({ type: 'checkbox' })`
     }
   }
 `;
-const StyledCheckbox = styled.div<Checkbox>`
+const StyledCheckbox = styled.div<TCheckbox>`
   position: relative;
   z-index: 1;
   display: inline-block;
@@ -76,6 +68,7 @@ const StyledCheckbox = styled.div<Checkbox>`
   background-image: url(${checkIcon.src});
   background-repeat: no-repeat;
   background-position: center;
+  margin: ${({ margin }) => margin || '0'};
   pointer-events: ${({ disabled }) => (disabled ? 'none' : 'all')};
   cursor: ${({ disabled }) => (disabled ? 'unset' : 'pointer')};
   opacity: ${({ disabled }) => (disabled ? '0.5' : '1')};
@@ -87,17 +80,4 @@ const StyledCheckbox = styled.div<Checkbox>`
   background-size: ${({ checked }) => (checked ? '65%' : 0)};
   background-color: ${({ checked }) =>
     checked ? colorMap.primary.initial : colorMap.secondary.initial};
-`;
-
-const Label = styled.label<Label>`
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  font-family: 'THICCCBOI';
-  font-style: normal;
-  font-weight: 700;
-  font-size: 22px;
-  line-height: 28px;
-  color: ${({ status }) => statusColorMap[status]};
 `;
