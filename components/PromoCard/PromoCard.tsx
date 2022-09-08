@@ -42,11 +42,21 @@ export const PromoCard: React.FC<Props> = ({
           </BenefitsList>
           <Link href="/auth">
             {UItype === 'primary' ? (
-              <Button UIType="secondary">Get Gscore</Button>
+              <Button
+                UIType="secondary"
+                padding="26px 106.05px"
+                margin="0 auto"
+              >
+                Get Gscore
+              </Button>
             ) : (
-              <Button UIType="secondary">
+              <Button
+                UIType="secondary"
+                padding="26px 106.05px"
+                margin="0 auto"
+              >
                 <span style={{ color: `${colors.neutral.black}` }}>
-                  GetScore
+                  Get Gscore
                 </span>
               </Button>
             )}
@@ -120,6 +130,7 @@ const BenefitItem = styled.li<TBenefitItem>`
   font-size: 18px;
   line-height: 20px;
   position: relative;
+  padding-left: 5px;
   color: ${colors.neutral.white};
   ::before {
     content: ${({ UItype }) =>
@@ -127,7 +138,7 @@ const BenefitItem = styled.li<TBenefitItem>`
         ? `url(${primaryMarker.src})`
         : `url(${secondaryMarker.src})`};
     position: absolute;
-    left: -42px;
+    left: -35px;
     top: -4px;
   }
 `;

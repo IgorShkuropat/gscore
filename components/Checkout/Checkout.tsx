@@ -1,22 +1,24 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Button, Link } from 'components';
+import { Button, Link, PurchaseList } from 'components';
 import { colors } from 'shared/colors';
 
 export const Checkout = () => {
   return (
     <Container>
-      <Title>Ckeckout</Title>
-      <PurchaseList></PurchaseList>
+      <Title>Checkout</Title>
+      <PurchaseList UItype="checkout" />
       <TotalContainer>
         <TotalText>Total:</TotalText>
         <TotalSum>$77</TotalSum>
       </TotalContainer>
-      <Link href="/">
-        <Button UIType="primary" padding="20px 65.55px" margin="0 0 310px 0">
-          Purchase
-        </Button>
-      </Link>
+      <div style={{ alignSelf: 'flex-start' }}>
+        <Link href="/purchase">
+          <Button UIType="primary" padding="20px 65.55px">
+            Purchase
+          </Button>
+        </Link>
+      </div>
     </Container>
   );
 };
@@ -26,6 +28,7 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   padding-top: 60px;
+  margin-bottom: 310px;
 `;
 
 const Title = styled.h1`
@@ -37,11 +40,7 @@ const Title = styled.h1`
   color: ${colors.neutral.white};
   padding-bottom: 32px;
 `;
-const PurchaseList = styled.div`
-  background: ${colors.neutral.lightBlack};
-  border-radius: 12px;
-  margin-bottom: 24px;
-`;
+
 const TotalContainer = styled.div`
   display: flex;
   justify-content: space-between;

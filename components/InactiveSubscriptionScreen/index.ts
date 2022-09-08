@@ -1,0 +1,1 @@
+export { InactiveSubscriptionScreen } from './InactiveSubscriptionScreen';

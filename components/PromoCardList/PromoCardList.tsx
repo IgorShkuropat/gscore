@@ -19,9 +19,10 @@ export const PromoCardList = () => {
 
 const Container = styled.div`
   width: 88.05%;
-  min-height: 700px;
+  min-height: 650px;
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
   gap: 28px;
+  padding-bottom: 32.77px;
 `;

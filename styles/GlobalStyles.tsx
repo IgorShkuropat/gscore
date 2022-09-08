@@ -3,11 +3,6 @@ import { colors } from '../shared/colors';
 
 export const GlobalStyles = createGlobalStyle`
 
-main{
-    display: flex;
-    gap: 35px;
-    flex-direction: column;
-}
 body, html{
     background-color: ${colors.neutral.black};
     margin: 0;
