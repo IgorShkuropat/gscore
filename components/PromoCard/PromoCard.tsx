@@ -4,12 +4,16 @@ import { colors } from 'shared/colors';
 import primaryMarker from 'public/svg/primaryMarker.svg';
 import secondaryMarker from 'public/svg/secondaryMarker.svg';
 import { Button, Link } from 'components';
+import { actions } from 'ducks';
+import { useAppDispatch } from 'utils/hooks';
+import { setCookie } from 'services/cookie';
 
 type Props = {
   price: string;
   title: string;
   alignSelf?: string;
   UItype: 'primary' | 'secondary';
+  productId: string;
 };
 
 type TContainer = Pick<Props, 'UItype' | 'alignSelf'>;
@@ -19,7 +23,14 @@ export const PromoCard: React.FC<Props> = ({
   title,
   alignSelf,
   UItype,
+  productId,
 }) => {
+  const dispatch = useAppDispatch();
+  const setProductIdInCookie = productId => setCookie('productId', productId);
+  const handleChooseProduct = productId => {
+    dispatch(actions.chooseProduct(productId));
+    setProductIdInCookie(productId);
+  };
   return (
     <Container UItype={UItype} alignSelf={alignSelf}>
       <Wrapper>
@@ -43,6 +54,7 @@ export const PromoCard: React.FC<Props> = ({
           <Link href="/auth">
             {UItype === 'primary' ? (
               <Button
+                onClick={() => handleChooseProduct(productId)}
                 UIType="secondary"
                 padding="26px 106.05px"
                 margin="0 auto"
@@ -51,6 +63,7 @@ export const PromoCard: React.FC<Props> = ({
               </Button>
             ) : (
               <Button
+                onClick={() => handleChooseProduct(productId)}
                 UIType="secondary"
                 padding="26px 106.05px"
                 margin="0 auto"

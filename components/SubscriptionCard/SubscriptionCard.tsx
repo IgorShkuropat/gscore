@@ -2,33 +2,65 @@ import React from 'react';
 import styled from 'styled-components';
 import { colors } from 'shared/colors';
 import { Button } from 'components';
+import { SubscribeResponseDto } from 'api/generated';
 
-export const SubscriptionItem = () => {
+type Props = Pick<SubscribeResponseDto, 'currentPeriodEnd' | 'status'> & {
+  isSecondaryItem: boolean;
+  price: string;
+  productName: number;
+  viewCardCodes: (subscribeId: number) => void;
+  subscribeId: number;
+};
+
+const statusMap = {
+  ACTIVE: 'Active',
+  HOLD: 'Hold',
+  INACTIVE: 'Inactive',
+};
+
+type TContainer = Pick<Props, 'isSecondaryItem'>;
+export const SubscriptionCard: React.FC<Props> = ({
+  isSecondaryItem,
+  price,
+  currentPeriodEnd,
+  status,
+  productName,
+  viewCardCodes,
+  subscribeId,
+}) => {
   return (
-    <Container>
+    <Container isSecondaryItem={isSecondaryItem}>
       <TopContainer>
         <Logo>Gscore</Logo>
-        <StatusText>Active</StatusText>
+        <StatusText>{statusMap[status]}</StatusText>
       </TopContainer>
       <BottomContainer>
-        <SubscriptionName>Single site license</SubscriptionName>
-        <SubscriptionPrice>$77</SubscriptionPrice>
+        <SubscriptionName>{productName}</SubscriptionName>
+        <SubscriptionPrice>${price}</SubscriptionPrice>
       </BottomContainer>
-      <ValidDateText>valid until 21.10.2022</ValidDateText>
-      <Button UIType="secondary" padding="20px 42px">
+      <ValidDateText>valid until {currentPeriodEnd}</ValidDateText>
+      <Button
+        UIType="secondary"
+        padding="20px 42px"
+        onClick={() => viewCardCodes(subscribeId)}
+      >
         View
       </Button>
     </Container>
   );
 };
 
-const Container = styled.div`
-  max-width: 620px;
+const Container = styled.div<TContainer>`
+  max-width: 524px;
   background: ${colors.neutral.deepGrey};
   border-radius: 12px;
   margin-bottom: 24px;
   padding: 48px 72px 48px 32px;
   position: relative;
+  flex-grow: 1;
+  filter: brightness(
+    ${({ isSecondaryItem }) => (isSecondaryItem ? '0.75' : '1')}
+  );
   ::before {
     content: '';
     position: absolute;
@@ -77,7 +109,9 @@ const SubscriptionName = styled.span`
   color: ${colors.neutral.white};
 `;
 
-const SubscriptionPrice = styled(SubscriptionName)``;
+const SubscriptionPrice = styled(SubscriptionName)`
+  margin-right: 20px;
+`;
 
 const ValidDateText = styled.p`
   font-family: 'THICCCBOI';

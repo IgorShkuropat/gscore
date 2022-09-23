@@ -16,5 +16,6 @@ export { Checkout } from './Checkout';
 export { PurchaseList } from './PurchaseList';
 export { PromoCardList } from './PromoCardList';
 export { CreateAccount } from './CreateAccount';
-export { SubscriptionItem } from './SubscriptionItem';
+export { UserAccordion } from './UserAccordion';
+export { SubscriptionCard } from './SubscriptionCard';
 export { InactiveSubscriptionScreen } from './InactiveSubscriptionScreen';

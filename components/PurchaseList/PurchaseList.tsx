@@ -5,10 +5,17 @@ import cart from 'public/svg/cart.svg';
 
 type Props = {
   UItype: 'checkout' | 'purchase';
+  price: string;
+  productName: string;
 };
 
 type TPackagePrice = Pick<Props, 'UItype'>;
-export const PurchaseList = ({ UItype }) => {
+
+export const PurchaseList: React.FC<Props> = ({
+  UItype,
+  price,
+  productName,
+}) => {
   return (
     <Container>
       <TopPurchaseContainer>
@@ -16,8 +23,8 @@ export const PurchaseList = ({ UItype }) => {
         <PriceText>Price</PriceText>
       </TopPurchaseContainer>
       <BottomPurchaseContainer>
-        <PackageType>Single site license</PackageType>
-        <PackagePrice UItype={UItype}>$77</PackagePrice>
+        <PackageType>{productName}</PackageType>
+        <PackagePrice UItype={UItype}>${price}</PackagePrice>
       </BottomPurchaseContainer>
     </Container>
   );

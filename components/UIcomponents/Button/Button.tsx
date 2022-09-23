@@ -9,7 +9,7 @@ type Props = {
   loading?: boolean;
   disabled?: boolean;
   children: ReactNode;
-  onClick?: () => any;
+  onClick?: React.MouseEventHandler<HTMLButtonElement>;
   padding?: string;
   alignSelf?: string;
   margin?: string;
@@ -58,6 +58,7 @@ export const Button: React.FC<Props> = ({
 };
 
 const StyledButton = styled.button<StyledButton>`
+  min-width: 110px;
   display: flex;
   align-items: center;
   align-self: ${({ alignSelf }) => alignSelf || 'unset'};

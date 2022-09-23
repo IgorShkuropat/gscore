@@ -1,18 +1,37 @@
+import React from 'react';
 import styled from 'styled-components';
 import { colors } from 'shared/colors';
+import { UseFormRegisterReturn } from 'react-hook-form';
 
 type Props = {
   padding?: string;
   disabled?: boolean;
   alignSelf?: string;
   placeholder?: string;
+  register: UseFormRegisterReturn;
+  type: string;
 };
+type TStyledInput = Omit<Props, 'register'>;
 
-export const Input: React.FC<Props> = props => {
-  return <StyledInput {...props} />;
+export const Input: React.FC<Props> = ({
+  register,
+  type,
+  padding,
+  alignSelf,
+  disabled,
+  placeholder,
+}) => {
+  const inputProps = {
+    type,
+    padding,
+    alignSelf,
+    disabled,
+    placeholder,
+  };
+
+  return <StyledInput {...inputProps} {...register} />;
 };
-
-const StyledInput = styled.input<Props>`
+const StyledInput = styled.input<TStyledInput>`
   background-color: ${colors.neutral.white};
   color: ${colors.neutral.deepGrey};
   caret-color: ${colors.primary};

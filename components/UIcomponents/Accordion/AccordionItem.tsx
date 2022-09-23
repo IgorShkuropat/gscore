@@ -1,18 +1,37 @@
 import React from 'react';
 import styled from 'styled-components';
 import { colors } from 'shared/colors';
+import { Link } from 'components';
 
 export type Props = {
   title: string;
   iconSrc: string;
+  path: string;
+  onClick?: () => void;
 };
 
-export const AccordionItem: React.FC<Props> = ({ title, iconSrc }) => {
+export const AccordionItem: React.FC<Props> = ({
+  title,
+  iconSrc,
+  path,
+  onClick,
+}) => {
   return (
-    <Container>
-      <img src={iconSrc} alt="icon" />
-      <Title>{title}</Title>
-    </Container>
+    <>
+      {path ? (
+        <Link href={path}>
+          <Container>
+            <img src={iconSrc} alt="icon" />
+            <Title>{title}</Title>
+          </Container>
+        </Link>
+      ) : (
+        <Container onClick={onClick}>
+          <img src={iconSrc} alt="icon" />
+          <Title>{title}</Title>
+        </Container>
+      )}
+    </>
   );
 };
 const Container = styled.div`
@@ -26,5 +45,5 @@ const Title = styled.span`
   font-weight: 500;
   font-size: 16px;
   line-height: 18px;
-  color: ${colors.neutral.grey};
+  color: ${colors.neutral.white};
 `;

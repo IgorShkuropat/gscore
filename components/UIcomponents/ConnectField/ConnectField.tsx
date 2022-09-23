@@ -3,19 +3,28 @@ import styled from 'styled-components';
 import { colors } from 'shared/colors';
 import { Checkbox } from 'components';
 import copyIcon from 'public/svg/copy.svg';
+import { Button } from 'components';
+import { actions } from 'ducks';
+import { useAppDispatch, useAppSelector } from 'utils/hooks';
+import { selectors } from 'ducks';
 
 type Props = {
-  status: 'Active' | 'Hold' | 'Inactive';
+  status: string;
+  licenseCode: string;
 };
 type TLabel = Pick<Props, 'status'>;
 
 const statusColorMap = {
-  Active: colors.system.green,
-  Hold: colors.system.orange,
-  Inactive: colors.primary,
+  ACTIVE: colors.system.green,
+  HOLD: colors.system.orange,
+  INACTIVE: colors.primary,
 };
 
-export const ConnectField: React.FC<Props> = ({ status }) => {
+export const ConnectField: React.FC<Props> = ({ status, licenseCode }) => {
+  const dispatch = useAppDispatch();
+  const isSubscribesLoading: boolean = useAppSelector(
+    selectors.selectIsSubscribesLoading,
+  );
   return (
     <Container>
       <div style={{ margin: '35px 48px 0 0' }}>
@@ -23,13 +32,38 @@ export const ConnectField: React.FC<Props> = ({ status }) => {
       </div>
       <LicenseContainer>
         <LicenseText>Liscense</LicenseText>
-        <LicenseInput placeholder="License key" />
+        <LicenseInput placeholder="License key" value={licenseCode} />
         <CopyIcon src={copyIcon.src} alt="copy icon" />
       </LicenseContainer>
-      <DomainContainer>
-        <DomainText>Domain</DomainText>
-        <DomainInput placeholder="Domain" />
-      </DomainContainer>
+      <div
+        style={{
+          display: 'flex',
+          flexDirection: 'row',
+          flexGrow: '1',
+          gap: '56px',
+          marginRight: '41px',
+        }}
+      >
+        <DomainContainer>
+          <DomainText>Domain</DomainText>
+          <DomainInput placeholder="Domain" />
+        </DomainContainer>
+        {status === 'INACTIVE' && (
+          <Button
+            UIType="secondary"
+            alignSelf="flex-end"
+            padding="20px 24px"
+            margin="0 0 5px 0"
+            loading={isSubscribesLoading}
+            onClick={() => {
+              dispatch(actions.activateCode({ code: licenseCode }));
+              dispatch(actions.getSelfSubscribes());
+            }}
+          >
+            Activate
+          </Button>
+        )}
+      </div>
       <StatusContainer>
         <StatusText>Status</StatusText>
         <StatusType status={status}>{status}</StatusType>
@@ -44,6 +78,7 @@ const Container = styled.div`
   display: flex;
   padding: 24px 90px 31px 32px;
   align-items: center;
+  gap: 15px;
 `;
 
 const LicenseContainer = styled.div`
@@ -64,7 +99,7 @@ const LicenseText = styled.span`
 `;
 const LicenseInput = styled.input`
   outline: none;
-  padding: 25px 90px 25px 24px;
+  padding: 25px 75px 25px 24px;
   font-family: 'THICCCBOI';
   font-style: normal;
   font-weight: 400;
@@ -90,16 +125,16 @@ const CopyIcon = styled.img`
 const DomainContainer = styled(LicenseContainer)`
   margin: 0;
   flex-grow: 1;
+  padding-right: 56px;
 `;
 const DomainText = styled(LicenseText)``;
 const DomainInput = styled(LicenseInput)`
+  max-width: 595px;
   padding: 25px 34px 25px 24px;
   width: 100%;
-  max-width: 619.99px;
 `;
 const StatusContainer = styled(LicenseContainer)`
   margin: 0;
-  margin-left: 56px;
   gap: 32px;
   align-self: flex-start;
 `;

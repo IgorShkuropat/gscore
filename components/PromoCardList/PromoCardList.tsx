@@ -1,18 +1,24 @@
 import React from 'react';
 import styled from 'styled-components';
 import { PromoCard } from 'components';
+import { useAppSelector } from 'utils/hooks';
+import { selectPrices, selectProducts } from 'ducks/products';
 
 export const PromoCardList = () => {
+  const products = useAppSelector(selectProducts);
+  const prices = useAppSelector(selectPrices);
   return (
     <Container>
-      <PromoCard UItype="secondary" price="77" title="Single site license" />
-      <PromoCard
-        alignSelf="flex-start"
-        UItype="primary"
-        price="117"
-        title="3 Site license"
-      />
-      <PromoCard UItype="secondary" price="167" title="10 Site license" />
+      {products.map((product, index) => (
+        <PromoCard
+          productId={String(product.id)}
+          key={product.id}
+          UItype={index === 1 ? 'primary' : 'secondary'}
+          title={product.name}
+          price={prices ? prices[index] || '' : ''}
+          alignSelf={index === 1 ? 'flex-start' : 'flex-end'}
+        />
+      ))}
     </Container>
   );
 };

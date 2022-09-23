@@ -2,8 +2,26 @@ import React from 'react';
 import styled from 'styled-components';
 import { Input, Button } from 'components';
 import { colors } from 'shared/colors';
+import { useForm, SubmitHandler } from 'react-hook-form';
+import { useAppDispatch } from 'utils/hooks';
+import { signUp } from 'ducks/user/userSlice';
+import { getProducts } from 'ducks/products';
+
+type Fields = {
+  email: string;
+  username: string;
+  password: string;
+};
 
 export const CreateAccount = ({ nextTab }) => {
+  const { register, handleSubmit } = useForm<Fields>();
+  const dispatch = useAppDispatch();
+
+  const sendRegisterData: SubmitHandler<Fields> = fields => {
+    dispatch(signUp({ ...fields }));
+    nextTab();
+  };
+
   return (
     <Container>
       <Title>Create account</Title>
@@ -11,16 +29,35 @@ export const CreateAccount = ({ nextTab }) => {
         You need to enter your name and email. We will send you a temporary
         password by email
       </Subtitle>
-      <Form>
-        <Input placeholder="Username" />
-        <Input placeholder="Email" />
-        <Input placeholder="Password" />
-        <Button
-          UIType="primary"
-          onClick={nextTab}
-          padding="20px 42.5px"
-          margin="24px 0 0 0"
-        >
+      <Form
+        method="POST"
+        onSubmit={handleSubmit(sendRegisterData, err => console.log(err))}
+      >
+        <Input
+          type="text"
+          placeholder="Username"
+          register={{ ...register('username', { required: true }) }}
+        />
+        <Input
+          type="email"
+          placeholder="Email"
+          register={{
+            ...register('email', {
+              required: true,
+              pattern: {
+                value:
+                  /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/,
+                message: 'Incorrect email',
+              },
+            }),
+          }}
+        />
+        <Input
+          type="password"
+          placeholder="Password"
+          register={{ ...register('password', { required: true }) }}
+        />
+        <Button UIType="primary" padding="20px 42.5px" margin="24px 0 0 0">
           Send password
         </Button>
       </Form>

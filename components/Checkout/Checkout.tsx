@@ -2,19 +2,39 @@ import React from 'react';
 import styled from 'styled-components';
 import { Button, Link, PurchaseList } from 'components';
 import { colors } from 'shared/colors';
+import { useAppDispatch, useAppSelector } from 'utils/hooks';
+import { actions, selectors } from 'ducks';
 
 export const Checkout = () => {
+  const dispatch = useAppDispatch();
+  const product = useAppSelector(selectors.selectChoosenProduct);
+  const priceId = useAppSelector(selectors.selectChoosenPriceId);
+  const price = product?.prices[0].price;
   return (
     <Container>
       <Title>Checkout</Title>
-      <PurchaseList UItype="checkout" />
+      <PurchaseList
+        UItype="checkout"
+        price={price}
+        productName={product?.name}
+      />
       <TotalContainer>
         <TotalText>Total:</TotalText>
-        <TotalSum>$77</TotalSum>
+        <TotalSum>${price}</TotalSum>
       </TotalContainer>
       <div style={{ alignSelf: 'flex-start' }}>
         <Link href="/purchase">
-          <Button UIType="primary" padding="20px 65.55px">
+          <Button
+            UIType="primary"
+            padding="20px 65.55px"
+            onClick={() =>
+              dispatch(
+                actions.buySubscribe({
+                  priceId: priceId,
+                }),
+              )
+            }
+          >
             Purchase
           </Button>
         </Link>
