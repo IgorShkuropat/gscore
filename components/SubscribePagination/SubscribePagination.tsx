@@ -37,6 +37,10 @@ export const SubscribePagination: React.FC<Props> = ({
         <PaginationItemsContainer>
           {subscribes &&
             subscribes
+              .slice()
+              .sort((firstCode, secondCode) =>
+                firstCode.id > secondCode.id ? 1 : -1,
+              )
               .slice(firstContentIndex, lastContentIndex)
               .map(sub => (
                 <SubscriptionCard

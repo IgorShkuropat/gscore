@@ -21,7 +21,7 @@ export const CodesList: React.FC<Props> = ({
 
   const sitesCount = useAppSelector(
     selectors.selectCurrentSubcribe(selectedSubscribeId || 0),
-  ).product?.sitesCount;
+  )?.product?.sitesCount;
   const isCodesLoading = useAppSelector(selectors.selectIsCodesLoading);
   const { register, getValues } = useForm();
 
@@ -53,8 +53,7 @@ export const CodesList: React.FC<Props> = ({
       return;
     }
     const isAvailableCodesNumber =
-      sitesCount || 0 >= getSelectedCodes(codes).length;
-
+      (sitesCount || 0) > getSelectedCodes(codes).length;
     if (isAvailableCodesNumber) {
       const chainDispatch = async () => {
         await dispatch(
@@ -63,9 +62,11 @@ export const CodesList: React.FC<Props> = ({
             subscribeId: selectedSubscribeId,
           }),
         );
-        await dispatch(actions.getSelfCodes());
+        await dispatch(actions.getSelfSubscribes());
       };
       chainDispatch();
+    } else {
+      alert(`You can't save more codes, than product suggests (${sitesCount})`);
     }
   };
 
@@ -87,7 +88,11 @@ export const CodesList: React.FC<Props> = ({
             codeId={code.id}
           />
         ))}
-      {subscribes.find(sub => sub.id === selectedSubscribeId) && (
+      {subscribes.find(
+        sub =>
+          sub.id === selectedSubscribeId &&
+          sub?.codes?.some(code => code.status === 'HOLD'),
+      ) && (
         <ConfirmContainer>
           <ButtonLabel>Select the domains you want to keep</ButtonLabel>
           <Button

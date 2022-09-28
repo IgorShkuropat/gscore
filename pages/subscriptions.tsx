@@ -12,7 +12,6 @@ import { colors } from 'shared/colors';
 import { selectors, actions } from 'ducks';
 import { useAppDispatch, useAppSelector } from 'utils/hooks';
 
-// type Fields =
 const Subscriptions: NextPage = () => {
   const dispatch = useAppDispatch();
 
@@ -33,19 +32,24 @@ const Subscriptions: NextPage = () => {
 
   const viewCardCodes = susbcribeId => setSelectedSubscribeId(susbcribeId);
   const changeProduct = () => {
-    const chainDispatch = async () => {
-      if (selectedSubscribeId !== null) {
-        await dispatch(
-          actions.changeProduct({
-            subscribeId: selectedSubscribeId,
-            productId: 2,
-          }),
-        );
-        await dispatch(actions.getSelfSubscribes());
-        await dispatch(actions.getProducts());
-      }
-    };
-    chainDispatch();
+    let productId = prompt('Choose product id: 1, 2 or 3') || 0;
+    if ([1, 2, 3].includes(+productId)) {
+      const chainDispatch = async () => {
+        if (selectedSubscribeId !== null) {
+          await dispatch(
+            actions.changeProduct({
+              subscribeId: selectedSubscribeId,
+              productId: +productId,
+            }),
+          );
+          await dispatch(actions.getSelfSubscribes());
+          await dispatch(actions.getProducts());
+        }
+      };
+      chainDispatch();
+    } else {
+      alert('Id must be number from 1 to 3');
+    }
   };
   return (
     <>
