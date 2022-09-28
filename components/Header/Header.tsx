@@ -1,10 +1,9 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import logoIcon from 'public/svg/logo.svg';
 import { Link } from 'components';
 import { colors } from 'shared/colors';
 import { UserAccordion } from 'components';
-import { selectAuth } from 'ducks/auth';
 import { useAppDispatch, useAppSelector } from 'utils/hooks';
 import { getCookie } from 'services/cookie';
 import { actions } from 'ducks';
@@ -13,11 +12,11 @@ export const Header: React.FC<{ serverSideUsername?: string }> = ({
   serverSideUsername,
 }) => {
   const dispatch = useAppDispatch();
-  const username = serverSideUsername
-    ? serverSideUsername
-    : getCookie('username');
+  const [username, setUsername] = useState(serverSideUsername);
+
   useEffect(() => {
-    username && dispatch(actions.loginViaCookie());
+    setUsername(getCookie('username'));
+    dispatch(actions.loginViaCookie());
   }, []);
 
   return (

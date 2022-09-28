@@ -26,5 +26,7 @@ export const selectChoosenPriceId = createSelector(
   product => product.prices[0].id,
 );
 
-export const selectIsSubscribesLoading: (state: State) => boolean = state =>
-  state.products.isSubscribesLoading;
+export const selectIsCodesLoading: (state: State) => boolean = state =>
+  state.products.isCodesLoading;
+export const selectIsSubscribeLoading: (state: State) => boolean = state =>
+  state.products.isSubscribeLoading;

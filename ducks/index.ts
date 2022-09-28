@@ -10,18 +10,26 @@ import {
   getProducts,
   buySubscribe,
   getSelfSubscribes,
+  getSelfCodes,
   activateCode,
+  changeProduct,
+  manageCodes,
 } from 'ducks/products';
 import { logout, loginViaCookie } from 'ducks/auth';
-import { selectUserSubscriptions, selectUserCodes } from './user/selectors';
+import {
+  selectUserSubscriptions,
+  selectAttachedCodes,
+  selectCurrentSubcribe,
+} from './user/selectors';
 import {
   selectPrices,
   selectProducts,
   selectProduct,
   selectChoosenProduct,
   selectChoosenPriceId,
-  selectIsSubscribesLoading,
+  selectIsCodesLoading,
   selectChoosenProductPrice,
+  selectIsSubscribeLoading,
 } from 'ducks/products';
 import { selectAuth } from 'ducks/auth';
 import products from './products';
@@ -41,6 +49,9 @@ export const actions = {
   loginViaCookie,
   getSelfSubscribes,
   activateCode,
+  getSelfCodes,
+  changeProduct,
+  manageCodes,
 };
 export const reducers = { products, user, auth };
 export const selectors = {
@@ -52,6 +63,8 @@ export const selectors = {
   selectAuth,
   selectChoosenProductPrice,
   selectUserSubscriptions,
-  selectUserCodes,
-  selectIsSubscribesLoading,
+  selectAttachedCodes,
+  selectIsCodesLoading,
+  selectCurrentSubcribe,
+  selectIsSubscribeLoading,
 };

@@ -7,10 +7,14 @@ import { Button } from 'components';
 import { actions } from 'ducks';
 import { useAppDispatch, useAppSelector } from 'utils/hooks';
 import { selectors } from 'ducks';
+import { UseFormRegister } from 'react-hook-form';
 
 type Props = {
   status: string;
   licenseCode: string;
+  register: UseFormRegister<any>;
+  codeId: number;
+  getValues: (payload?: string | string[]) => Object;
 };
 type TLabel = Pick<Props, 'status'>;
 
@@ -20,20 +24,38 @@ const statusColorMap = {
   INACTIVE: colors.primary,
 };
 
-export const ConnectField: React.FC<Props> = ({ status, licenseCode }) => {
+export const ConnectField: React.FC<Props> = ({
+  status,
+  licenseCode,
+  register,
+  getValues,
+  codeId,
+}) => {
   const dispatch = useAppDispatch();
-  const isSubscribesLoading: boolean = useAppSelector(
-    selectors.selectIsSubscribesLoading,
+  const isCodesLoading: boolean = useAppSelector(
+    selectors.selectIsCodesLoading,
   );
+  const copyLicenseCode = licenseCode => {
+    navigator.clipboard.writeText(licenseCode).then(
+      () => alert('Code has copied to clipboard!'),
+      () => {
+        alert('Something gone wrong, code not copied');
+      },
+    );
+  };
   return (
     <Container>
       <div style={{ margin: '35px 48px 0 0' }}>
-        <Checkbox />
+        <Checkbox register={register} codeId={codeId} getValues={getValues} />
       </div>
       <LicenseContainer>
         <LicenseText>Liscense</LicenseText>
         <LicenseInput placeholder="License key" value={licenseCode} />
-        <CopyIcon src={copyIcon.src} alt="copy icon" />
+        <CopyIcon
+          src={copyIcon.src}
+          alt="copy icon"
+          onClick={() => copyLicenseCode(licenseCode)}
+        />
       </LicenseContainer>
       <div
         style={{
@@ -54,10 +76,14 @@ export const ConnectField: React.FC<Props> = ({ status, licenseCode }) => {
             alignSelf="flex-end"
             padding="20px 24px"
             margin="0 0 5px 0"
-            loading={isSubscribesLoading}
+            loading={isCodesLoading}
             onClick={() => {
-              dispatch(actions.activateCode({ code: licenseCode }));
-              dispatch(actions.getSelfSubscribes());
+              const chainDispatch = async () => {
+                await dispatch(actions.activateCode({ code: licenseCode }));
+
+                await dispatch(actions.getSelfCodes());
+              };
+              chainDispatch();
             }}
           >
             Activate

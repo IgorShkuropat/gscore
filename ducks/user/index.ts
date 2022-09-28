@@ -11,7 +11,8 @@ export {
   selectUsername,
   selectUserEmail,
   selectUserSubscriptions,
-  selectUserCodes,
+  selectAttachedCodes,
+  selectCurrentSubcribe,
 } from './selectors';
 
 export default userReducer;

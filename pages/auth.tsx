@@ -15,9 +15,7 @@ const Auth: NextPage = () => {
   } else {
     initialState[0] = true;
   }
-  console.log(initialState, 'initial');
   const [currentTabCounter, setCurrentTabCounter] = useState(isAuth ? 3 : 1);
-  console.log(currentTabCounter, 'dasdsa');
   const [activeTabs, setActiveTabs] = useState(initialState);
   const nextTab = () => {
     const newState = [...activeTabs];

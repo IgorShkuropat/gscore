@@ -5,6 +5,9 @@ export {
   buySubscribe,
   getSelfSubscribes,
   activateCode,
+  getSelfCodes,
+  changeProduct,
+  manageCodes,
 } from './productsSlice';
 export {
   selectPrices,
@@ -13,6 +16,7 @@ export {
   selectChoosenProduct,
   selectChoosenPriceId,
   selectChoosenProductPrice,
-  selectIsSubscribesLoading,
+  selectIsCodesLoading,
+  selectIsSubscribeLoading,
 } from './selectors';
 export default productSlice;

@@ -5,11 +5,12 @@ import { Button } from 'components';
 import { SubscribeResponseDto } from 'api/generated';
 
 type Props = Pick<SubscribeResponseDto, 'currentPeriodEnd' | 'status'> & {
-  isSecondaryItem: boolean;
+  isSelectedItem: boolean;
   price: string;
   productName: number;
-  viewCardCodes: (subscribeId: number) => void;
+  viewCardCodes: (subscribeId: number, productId: number) => void;
   subscribeId: number;
+  productId: number;
 };
 
 const statusMap = {
@@ -18,18 +19,19 @@ const statusMap = {
   INACTIVE: 'Inactive',
 };
 
-type TContainer = Pick<Props, 'isSecondaryItem'>;
+type TContainer = Pick<Props, 'isSelectedItem'>;
 export const SubscriptionCard: React.FC<Props> = ({
-  isSecondaryItem,
+  isSelectedItem,
   price,
   currentPeriodEnd,
   status,
   productName,
   viewCardCodes,
   subscribeId,
+  productId,
 }) => {
   return (
-    <Container isSecondaryItem={isSecondaryItem}>
+    <Container isSelectedItem={isSelectedItem}>
       <TopContainer>
         <Logo>Gscore</Logo>
         <StatusText>{statusMap[status]}</StatusText>
@@ -42,7 +44,7 @@ export const SubscriptionCard: React.FC<Props> = ({
       <Button
         UIType="secondary"
         padding="20px 42px"
-        onClick={() => viewCardCodes(subscribeId)}
+        onClick={() => viewCardCodes(subscribeId, productId)}
       >
         View
       </Button>
@@ -59,7 +61,7 @@ const Container = styled.div<TContainer>`
   position: relative;
   flex-grow: 1;
   filter: brightness(
-    ${({ isSecondaryItem }) => (isSecondaryItem ? '0.75' : '1')}
+    ${({ isSelectedItem }) => (isSelectedItem ? '0.75' : '1')}
   );
   ::before {
     content: '';

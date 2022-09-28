@@ -26,6 +26,8 @@ const rootReducer = (state: State, action: AnyAction) => {
         products: [...serverState.products.products],
         choosenProduct: state.products.choosenProduct,
         purchasedSubscription: state.products.purchasedSubscription,
+        isCodesLoading: state.products.isCodesLoading,
+        isSubscribeLoading: state.products.isSubscribeLoading,
       },
       user: {
         ...state.user,

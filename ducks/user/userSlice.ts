@@ -1,5 +1,11 @@
 import { api } from 'api/index';
-import { getSelfSubscribes } from 'ducks/products';
+import {
+  getSelfSubscribes,
+  getSelfCodes,
+  changeProduct,
+  manageCodes,
+} from 'ducks/products';
+import { LicenseCode } from 'api/generated';
 import {
   TInitialState,
   UserRegisterInfo,
@@ -9,7 +15,12 @@ import {
   UserData,
   SubscribeResponseDto,
 } from './types';
-import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
+import {
+  createSlice,
+  createAsyncThunk,
+  PayloadAction,
+  Draft,
+} from '@reduxjs/toolkit';
 
 export const signUp = createAsyncThunk<
   RegisterResponse,
@@ -80,6 +91,33 @@ export const getUserInfo = createAsyncThunk<any, void, { rejectValue: string }>(
   },
 );
 
+const updateCodes = (state, action: PayloadAction<LicenseCode[]>) => {
+  if (state.subscribes === null) {
+    return state.subscribes;
+  }
+  state.subscribes = state.subscribes.map(sub => {
+    if (!sub.codes) {
+      return sub;
+    }
+
+    const updatedCodes = sub.codes.map(code => {
+      const attachedCodes =
+        action.payload.filter(code => code.subscribeId === sub.id) || null;
+      let a =
+        attachedCodes.find(attachedCode => code.code === attachedCode.code)
+          ?.status || code.status;
+      code.status = a;
+      return code;
+    });
+
+    return {
+      ...sub,
+
+      codes: updatedCodes,
+    };
+  }) as Draft<SubscribeResponseDto[]>;
+};
+
 const initialState: TInitialState = {
   id: null,
   email: null,
@@ -105,6 +143,22 @@ const userSlice = createSlice({
     ) => {
       state.subscribes = action.payload;
     },
+    [getSelfCodes.fulfilled.type]: updateCodes,
+    [changeProduct.fulfilled.type]: (
+      state,
+      action: PayloadAction<SubscribeResponseDto>,
+    ) => {
+      if (state.subscribes === null) {
+        return;
+      }
+      state.subscribes = state.subscribes.map(sub => {
+        if (sub.id === action.payload.id) {
+          sub = { ...action.payload };
+        }
+        return sub;
+      });
+    },
+    [manageCodes.fulfilled.type]: updateCodes,
   },
 });
 

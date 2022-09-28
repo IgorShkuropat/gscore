@@ -12,7 +12,8 @@ export type TInitialState = {
   products: TProduct[];
   choosenProduct: null | TProduct;
   purchasedSubscription: null | BuySubscribeResponseDto;
-  isSubscribesLoading: boolean;
+  isCodesLoading: boolean;
+  isSubscribeLoading: boolean;
 };
 
 export type TProduct = ProductResponseDto;

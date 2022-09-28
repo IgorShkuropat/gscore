@@ -1,12 +1,16 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { colors, colorMap } from 'shared/colors';
 import checkIcon from 'public/svg/check.svg';
+import { UseFormRegister } from 'react-hook-form';
 
 type Props = {
   disabled?: boolean;
   initialChecked?: boolean;
   margin?: string;
+  register: UseFormRegister<any>;
+  getValues: (payload?: string | string[]) => Object;
+  codeId: number;
 };
 type TCheckbox = Pick<Props, 'disabled' | 'margin'> & {
   checked?: boolean;
@@ -16,25 +20,28 @@ export const Checkbox: React.FC<Props> = ({
   disabled = false,
   initialChecked = false,
   margin,
+  register,
+  getValues,
+  codeId,
 }) => {
-  const [checked, setChecked] = useState(initialChecked);
+  const [checked, setChecked] = useState(
+    getValues()[`checkboxId${codeId}`] || false,
+  );
 
   const handleChecked = e => {
-    setChecked(prev => !prev);
+    setChecked(getValues()[`checkboxId${codeId}`]);
   };
 
   return (
     <>
       <HiddenCheckbox
         margin={margin}
-        defaultChecked={checked}
         disabled={disabled}
+        {...register(`checkboxId${codeId}`, {
+          onChange: handleChecked,
+        })}
       />
-      <StyledCheckbox
-        onClick={handleChecked}
-        disabled={disabled}
-        checked={checked}
-      />
+      <StyledCheckbox disabled={disabled} checked={checked} />
     </>
   );
 };
@@ -43,6 +50,8 @@ const HiddenCheckbox = styled.input.attrs({ type: 'checkbox' })<TCheckbox>`
   &[type='checkbox'] {
     position: absolute;
     appearance: none;
+    z-index: 1;
+
     cursor: pointer;
     width: 1.75rem;
     height: 1.75rem;
@@ -60,7 +69,6 @@ const HiddenCheckbox = styled.input.attrs({ type: 'checkbox' })<TCheckbox>`
 `;
 const StyledCheckbox = styled.div<TCheckbox>`
   position: relative;
-  z-index: 1;
   display: inline-block;
   width: 1.75rem;
   height: 1.75rem;
