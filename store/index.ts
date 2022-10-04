@@ -11,9 +11,7 @@ import {
 import { createWrapper } from 'next-redux-wrapper';
 import { authMiddleware } from './middleware/authMiddleware';
 import persistReducer from './persistReducer';
-import { createContext } from 'react';
 
-export const SubscribtionsContext = createContext({});
 
 function makeStore() {
   return configureStore({
